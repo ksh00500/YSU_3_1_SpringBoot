@@ -1,0 +1,20 @@
+{{>layout/header}}
+
+<div class="d-flex justify-content-between align-items-start mb-2">
+    <h2 class="mb-0">{{post.title}}</h2>
+    <span class="badge bg-secondary">{{post.language}}</span>
+</div>
+<p class="text-muted">작성자 {{post.author}} · {{post.createdAt}}</p>
+
+<h6 class="mt-4">코드</h6>
+<pre class="bg-light border rounded p-3"><code>{{post.code}}</code></pre>
+
+<h6 class="mt-4">설명</h6>
+<p>{{post.description}}</p>
+
+<div class="mt-4">
+    <a href="/posts/edit" class="btn btn-dark">수정</a>
+    <a href="/posts" class="btn btn-outline-secondary">목록으로</a>
+</div>
+
+{{>layout/footer}}

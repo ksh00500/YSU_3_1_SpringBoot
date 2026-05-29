@@ -1,0 +1,37 @@
+{{>layout/header}}
+
+<h2 class="mb-4">코드 글 수정</h2>
+
+<form action="/posts/edit" method="post">
+
+    <div class="mb-3">
+        <label class="form-label">제목</label>
+        <input type="text" name="title" class="form-control" value="{{post.title}}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">언어</label>
+        <input type="text" name="language" class="form-control" value="{{post.language}}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">코드 본문</label>
+        <textarea name="code" class="form-control" rows="8">{{post.code}}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">설명</label>
+        <textarea name="description" class="form-control" rows="3">{{post.description}}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">작성자</label>
+        <input type="text" name="author" class="form-control" value="{{post.author}}">
+    </div>
+
+    <button type="submit" class="btn btn-dark">저장</button>
+    <a href="/posts" class="btn btn-outline-secondary">취소</a>
+
+</form>
+
+{{>layout/footer}}
