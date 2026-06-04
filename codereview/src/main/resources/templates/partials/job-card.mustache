@@ -1,0 +1,24 @@
+<article class="job-card">
+    <a href="/PostContents?puid={{puid}}">
+
+    <div class="company-logo">
+        {{#companyLogoUrl}}
+            <img src="{{companyLogoUrl}}" alt="{{company}}">
+        {{/companyLogoUrl}}
+        {{^companyLogoUrl}}
+            <div class="logo-placeholder">{{companyInitial}}</div>
+        {{/companyLogoUrl}}
+    </div>
+
+    <div class="job-info">
+        <h3>{{title}}</h3>
+        <p class="job-meta">{{company}} · {{location}} · {{jobType}}</p>
+        <div class="job-tags">
+            {{#tags}}
+                <span class="tag">{{name}}</span>
+            {{/tags}}
+        </div>
+    </div>
+
+    </a>
+</article>

@@ -1,0 +1,26 @@
+{{> partials/header}}
+
+<main class="main-page">
+
+    <nav class="tab-nav">
+        <a href="/TrendyPostList"      class="tab {{#isTrendy}}active{{/isTrendy}}">🔥 인기글</a>
+        <a href="/NewPostList"         class="tab {{#isNew}}active{{/isNew}}">🆕 최신글</a>
+        {{#isLoggedIn}}
+            <a href="/FollowPostList"      class="tab {{#isFollow}}active{{/isFollow}}">📌 구독한 글</a>
+        {{/isLoggedIn}}
+        <a href="/TrendythemePostList" class="tab {{#isTheme}}active{{/isTheme}}">🌐 언어별 인기글</a>
+    </nav>
+
+    <section class="post-grid">
+        {{#posts}}
+            {{> partials/post-card}}
+        {{/posts}}
+
+        {{^posts}}
+            <p class="empty-msg">게시글이 없습니다.</p>
+        {{/posts}}
+    </section>
+
+</main>
+
+{{> partials/footer}}

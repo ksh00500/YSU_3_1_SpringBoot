@@ -1,0 +1,22 @@
+{{> partials/header}}
+
+<main class="job-board-page">
+    <div class="page-header">
+        <h1>구인구직</h1>
+        {{#isLoggedIn}}
+            <a href="/post-editor?type=job" class="btn-write">공고 올리기</a>
+        {{/isLoggedIn}}
+    </div>
+
+    <section class="job-list">
+        {{#jobs}}
+            {{> partials/job-card}}
+        {{/jobs}}
+
+        {{^jobs}}
+            <p class="empty-msg">등록된 공고가 없습니다.</p>
+        {{/jobs}}
+    </section>
+</main>
+
+{{> partials/footer}}

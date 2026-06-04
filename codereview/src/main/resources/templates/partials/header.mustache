@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pageTitle}} | DevLog</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">DevLog</a>
+
+    <form action="/SearchPostList" method="post" class="search-form">
+        <input type="text" name="keyword" placeholder="검색어 입력...">
+        <button type="submit">검색</button>
+    </form>
+
+    {{#isLoggedIn}}
+        <div class="user-menu">
+            <a href="/feed">@{{username}}</a>
+            <a href="/logout">로그아웃</a>
+        </div>
+    {{/isLoggedIn}}
+
+    {{^isLoggedIn}}
+        <a href="/login" class="btn-login">가입/로그인</a>
+    {{/isLoggedIn}}
+</nav>

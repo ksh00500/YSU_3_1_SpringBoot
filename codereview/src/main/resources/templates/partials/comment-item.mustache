@@ -1,0 +1,13 @@
+<div class="comment-item" id="comment-{{cuid}}">
+    <div class="comment-header">
+        <span class="comment-author">@{{authorId}}</span>
+
+        {{#isOwner}}
+            <div class="comment-actions">
+                <button class="btn-edit-comment" data-cuid="{{cuid}}">수정</button>
+                <button class="btn-del-comment"  data-cuid="{{cuid}}">삭제</button>
+            </div>
+        {{/isOwner}}
+    </div>
+    <p class="comment-body">{{content}}</p>
+</div>

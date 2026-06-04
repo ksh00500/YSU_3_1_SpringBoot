@@ -1,0 +1,56 @@
+{{> partials/header}}
+
+<main class="feed-page">
+
+    <aside class="sidebar">
+        {{#user}}
+            <div class="profile-card">
+                <div class="avatar">@{{id}}</div>
+                <div class="follow-info">
+                    <span>팔로워 {{followerCount}}</span>
+                    <span>팔로잉 {{followingCount}}</span>
+                </div>
+            </div>
+        {{/user}}
+        <nav class="side-menu">
+            <a href="/feed"         class="active">내 글 목록</a>
+            <a href="/feed/follows">구독 관리</a>
+            <a href="/settings">설정</a>
+        </nav>
+    </aside>
+
+    <section class="feed-main">
+        <div class="feed-header">
+            <h2>내 글 목록</h2>
+            <a href="/post-editor" class="btn-write">+ 새 글 쓰기</a>
+        </div>
+
+        <div class="my-post-list">
+            {{#myPosts}}
+                <div class="my-post-item">
+                    <div class="post-info">
+                        <a href="/PostContents?puid={{puid}}"><strong>{{title}}</strong></a>
+                        <span class="tag">{{themeLanguage}}</span>
+                        <small>{{createdAt}}</small>
+                    </div>
+                    <div class="post-actions">
+                        <a href="/post-editor?puid={{puid}}">수정</a>
+                        <form action="/PostAdd" method="post" style="display:inline">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="puid"    value="{{puid}}">
+                            <button type="submit"
+                                    onclick="return confirm('정말 삭제할까요?')">삭제</button>
+                        </form>
+                    </div>
+                </div>
+            {{/myPosts}}
+
+            {{^myPosts}}
+                <p class="empty-msg">작성한 글이 없습니다. 첫 글을 써보세요!</p>
+            {{/myPosts}}
+        </div>
+    </section>
+
+</main>
+
+{{> partials/footer}}

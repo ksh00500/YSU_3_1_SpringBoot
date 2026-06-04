@@ -1,0 +1,77 @@
+{{> partials/header}}
+
+<main class="editor-page">
+    <h1>{{pageTitle}}</h1>
+
+    {{#isEdit}}
+    <form action="/PostAdd" method="post" class="post-form">
+        <input type="hidden" name="_method" value="PUT">
+        {{#post}}
+            <input type="hidden" name="puid" value="{{puid}}">
+        {{/post}}
+    {{/isEdit}}
+    {{^isEdit}}
+    <form action="/PostAdd" method="post" class="post-form">
+    {{/isEdit}}
+
+    <div class="form-group">
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title"
+               value="{{#isEdit}}{{#post}}{{title}}{{/post}}{{/isEdit}}"
+               placeholder="제목을 입력하세요" required maxlength="124">
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="postType">PostType</label>
+            <select id="postType" name="postType">
+                <option value="tech"     {{#isTech}}selected{{/isTech}}>기술</option>
+                <option value="career"   {{#isCareer}}selected{{/isCareer}}>커리어</option>
+                <option value="question" {{#isQuestion}}selected{{/isQuestion}}>질문</option>
+                <option value="job"      {{#isJob}}selected{{/isJob}}>구인구직</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="themeLanguage">언어 태그</label>
+            <select id="themeLanguage" name="themeLanguage">
+                <option value="">전체</option>
+                <option value="Python"     {{#isPython}}selected{{/isPython}}>Python</option>
+                <option value="JavaScript" {{#isJavaScript}}selected{{/isJavaScript}}>JavaScript</option>
+                <option value="Java"       {{#isJava}}selected{{/isJava}}>Java</option>
+                <option value="Rust"       {{#isRust}}selected{{/isRust}}>Rust</option>
+                <option value="Go"         {{#isGo}}selected{{/isGo}}>Go</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="content">내용</label>
+        <textarea id="content" name="content"
+                  placeholder="내용을 입력하세요..."
+                  rows="20" required>{{#isEdit}}{{#post}}{{content}}{{/post}}{{/isEdit}}</textarea>
+    </div>
+
+    <div class="editor-actions">
+        <a href="/feed" class="btn-cancel">취소</a>
+        <button type="submit" class="btn-submit">
+            {{#isEdit}}수정 완료{{/isEdit}}
+            {{^isEdit}}등록{{/isEdit}}
+        </button>
+    </div>
+
+</form>
+
+    {{#isEdit}}
+        <form action="/PostAdd" method="post" style="margin-top:12px">
+            <input type="hidden" name="_method" value="DELETE">
+            {{#post}}
+                <input type="hidden" name="puid" value="{{puid}}">
+            {{/post}}
+            <button type="submit" class="btn-delete"
+                    onclick="return confirm('정말 삭제할까요?')">글 삭제</button>
+        </form>
+    {{/isEdit}}
+
+</main>
+
+{{> partials/footer}}

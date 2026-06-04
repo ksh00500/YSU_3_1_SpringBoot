@@ -1,0 +1,93 @@
+{{> partials/header}}
+
+<main class="post-detail-page">
+
+    {{#post}}
+        <header class="post-header">
+            <div class="tags">
+                <span class="tag">{{themeLanguage}}</span>
+                <span class="tag">{{postType}}</span>
+            </div>
+            <h1>{{title}}</h1>
+            <div class="post-meta">
+                <span>@{{authorId}}</span>
+                <span>{{createdAt}}</span>
+            </div>
+        </header>
+
+        {{! {{{...}}} : HTML 태그 이스케이프 없이 그대로 렌더링 }}
+        <article class="post-body">
+            {{{content}}}
+        </article>
+
+        <div class="action-bar">
+            {{#isLoggedIn}}
+
+                {{#isSuggested}}
+                    <form action="/CancelSuggest" method="post" style="display:inline">
+                        <input type="hidden" name="puid" value="{{puid}}">
+                        <button type="submit" class="btn-suggest active">
+                            👍 추천 취소 ({{suggestCount}})
+                        </button>
+                    </form>
+                {{/isSuggested}}
+
+                {{^isSuggested}}
+                    <form action="/Suggest" method="post" style="display:inline">
+                        <input type="hidden" name="puid" value="{{puid}}">
+                        <button type="submit" class="btn-suggest">
+                            👍 추천 ({{suggestCount}})
+                        </button>
+                    </form>
+                {{/isSuggested}}
+
+                <a href="/AicodeEdit?puid={{puid}}" class="btn-ai">
+                🤖 AI 코드 리팩토링
+                </a>
+
+            {{/isLoggedIn}}
+            {{^isLoggedIn}}
+                <span class="suggest-readonly">👍 {{suggestCount}}</span>
+            {{/isLoggedIn}}
+        </div>
+    {{/post}}
+
+    <section class="comments-section">
+        <h2>댓글</h2>
+
+        {{#isLoggedIn}}
+            <form action="/CommentAdd" method="post" class="comment-form">
+                {{#post}}
+                    <input type="hidden" name="puid" value="{{puid}}">
+                {{/post}}
+                <textarea name="content" placeholder="댓글을 입력하세요..." required></textarea>
+                <button type="submit">등록</button>
+            </form>
+        {{/isLoggedIn}}
+
+        <div class="comment-list">
+            {{#comments}}
+                {{> partials/comment-item}}
+            {{/comments}}
+
+            {{^comments}}
+                <p class="empty-msg">첫 댓글을 남겨보세요!</p>
+            {{/comments}}
+        </div>
+    </section>
+
+    <section class="related-posts">
+        <h2>관련 게시글</h2>
+        <div class="related-grid">
+            {{#relatedPosts}}
+                <a href="/PostContents?puid={{puid}}" class="related-card">
+                <span class="tag">{{themeLanguage}}</span>
+                <p>{{title}}</p>
+                </a>
+            {{/relatedPosts}}
+        </div>
+    </section>
+
+</main>
+
+{{> partials/footer}}

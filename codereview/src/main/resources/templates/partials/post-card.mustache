@@ -1,0 +1,28 @@
+<article class="post-card">
+    <a href="/PostContents?puid={{puid}}">
+
+    {{#hasThumbnail}}
+        <div class="thumbnail">
+            <img src="{{thumbnailUrl}}" alt="{{title}}">
+        </div>
+    {{/hasThumbnail}}
+    {{^hasThumbnail}}
+        <div class="thumbnail no-image">No Image</div>
+    {{/hasThumbnail}}
+
+    <div class="card-body">
+        <div class="tags">
+            <span class="tag">{{themeLanguage}}</span>
+            <span class="tag">{{postType}}</span>
+        </div>
+        <h3 class="post-title">{{title}}</h3>
+        <div class="post-meta">
+            <span>👍 {{suggestCount}}</span>
+            <span>💬 {{commentCount}}</span>
+            <span>@{{authorId}}</span>
+            <span>{{createdAt}}</span>
+        </div>
+    </div>
+
+    </a>
+</article>
