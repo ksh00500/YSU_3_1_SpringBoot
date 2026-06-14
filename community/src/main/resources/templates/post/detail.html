@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>코드 상세</title>
+</head>
+<body>
+    <!-- 이 파일은 뷰 담당 팀원이 작업할 영역입니다 -->
+    <!-- PostController의 GET /PostContents 에서 "post/detail" 뷰를 반환합니다 -->
+    <!-- model에 담긴 post 객체 사용 예: th:text="${post.title}" -->
+
+    <h1>[[${post.title}]]</h1>
+    <p>작성자: [[${post.nickname}]]</p>
+    <p>언어: [[${post.language}]]</p>
+    <pre>[[${post.codeContent}]]</pre>
+</body>
+</html>
