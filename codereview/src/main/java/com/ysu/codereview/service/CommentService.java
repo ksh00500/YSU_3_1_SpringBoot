@@ -26,10 +26,10 @@ public class CommentService {
     private PostRepository postRepository; // 댓글이 달릴 게시글 확인용
 
     // [GET /CommentList] 특정 게시글의 댓글 목록 조회
-    public List<CommentDto> getComments(Long postId) {
+    public List<CommentDto> getComments(Long postId, String currentLoginId) {
         return commentRepository.findByPostId(postId)
                 .stream()
-                .map(CommentDto::of) // Entity → DTO 변환
+                .map(c -> CommentDto.of(c, currentLoginId != null && currentLoginId.equals(c.getNickname())))
                 .collect(Collectors.toList());
     }
 

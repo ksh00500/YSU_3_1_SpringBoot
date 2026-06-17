@@ -1,0 +1,35 @@
+{{> partials/header}}
+
+<main class="ai-refactor-page">
+
+    <div class="ai-refactor-header">
+        {{#post}}
+        <a href="/PostContents?puid={{puid}}" class="back-link">
+            <span class="ic ic-sparkle"></span> 돌아가기
+        </a>
+        <div class="ai-post-info">
+            <span class="tag">{{themeLanguage}}</span>
+            <h1>{{title}}</h1>
+        </div>
+        {{/post}}
+    </div>
+
+    <div class="ai-refactor-layout">
+
+        <section class="ai-panel">
+            <div class="ai-panel-title">원본 코드</div>
+            <pre class="code-block">{{#post}}{{content}}{{/post}}</pre>
+        </section>
+
+        <section class="ai-panel ai-panel-result">
+            <div class="ai-panel-title">
+                <span class="ic ic-lightning"></span> AI 분석 · 리팩토링
+            </div>
+            <pre class="ai-result-block">{{aiResult}}</pre>
+        </section>
+
+    </div>
+
+</main>
+
+{{> partials/footer}}

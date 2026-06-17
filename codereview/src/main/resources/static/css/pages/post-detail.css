@@ -1,0 +1,110 @@
+.post-detail-page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+/* ── Header ── */
+.post-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-header .tags {
+  display: flex;
+  gap: .4rem;
+  margin-bottom: .85rem;
+}
+
+.post-header h1 {
+  margin-bottom: .75rem;
+  line-height: 1.35;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: .875rem;
+  color: var(--text-2);
+}
+
+/* ── Article body ── */
+.post-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+.post-body p   { margin-bottom: 1rem; }
+.post-body h2  { margin: 2rem 0 .75rem; }
+.post-body h3  { margin: 1.5rem 0 .6rem; }
+.post-body pre { margin: 1.25rem 0; }
+.post-body ul, .post-body ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.post-body ul { list-style: disc; }
+.post-body ol { list-style: decimal; }
+
+/* ── Action bar ── */
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+/* ── Related posts ── */
+.related-posts { margin-top: 3rem; }
+
+.related-posts h2 { margin-bottom: 1rem; }
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: .75rem;
+}
+
+.related-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: .85rem 1rem;
+  font-size: .875rem;
+  color: var(--text);
+  transition: border-color var(--ease), transform var(--ease);
+  display: block;
+}
+
+.related-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  color: var(--text);
+}
+
+.related-card .tag {
+  margin-bottom: .4rem;
+}
+
+.related-card p {
+  font-weight: 500;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ── Suggest readonly ── */
+.suggest-readonly {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .875rem;
+  color: var(--text-2);
+}

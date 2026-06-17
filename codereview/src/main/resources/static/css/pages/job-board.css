@@ -1,0 +1,18 @@
+.job-board-page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}

@@ -1,13 +1,27 @@
 <div class="comment-item" id="comment-{{cuid}}">
     <div class="comment-header">
         <span class="comment-author">@{{authorId}}</span>
-
         {{#isOwner}}
-            <div class="comment-actions">
-                <button class="btn-edit-comment" data-cuid="{{cuid}}">수정</button>
-                <button class="btn-del-comment"  data-cuid="{{cuid}}">삭제</button>
-            </div>
+        <div class="comment-actions">
+            <button type="button" class="btn-link btn-edit-comment" data-cuid="{{cuid}}">수정</button>
+            <form action="/CommentDel" method="post" style="display:inline">
+                <input type="hidden" name="cuid" value="{{cuid}}">
+                <input type="hidden" name="puid" value="{{postId}}">
+                <button type="submit" class="btn-link btn-del-comment">삭제</button>
+            </form>
+        </div>
         {{/isOwner}}
     </div>
-    <p class="comment-body">{{content}}</p>
+    <p class="comment-body" id="comment-body-{{cuid}}">{{content}}</p>
+    {{#isOwner}}
+    <form class="comment-edit-form" id="edit-form-{{cuid}}" action="/CommentEdit" method="post">
+        <input type="hidden" name="cuid" value="{{cuid}}">
+        <input type="hidden" name="puid" value="{{postId}}">
+        <textarea name="content" class="edit-textarea">{{content}}</textarea>
+        <div class="edit-form-actions">
+            <button type="submit" class="btn-sm">저장</button>
+            <button type="button" class="btn-sm btn-outline btn-cancel-edit" data-cuid="{{cuid}}">취소</button>
+        </div>
+    </form>
+    {{/isOwner}}
 </div>

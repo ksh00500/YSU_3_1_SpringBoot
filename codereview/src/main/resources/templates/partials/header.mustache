@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{pageTitle}} | DevLog</title>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{pageTitle}} | DevLog</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    (function(){
+      var t = localStorage.getItem('devlog-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 <body>
 
 <nav class="navbar">
-    <a href="/" class="logo">DevLog</a>
+  <a href="/" class="logo">
+    <span class="logo-mark">&lt;/&gt;</span>
+    DevLog
+  </a>
 
-    <form action="/SearchPostList" method="post" class="search-form">
-        <input type="text" name="keyword" placeholder="검색어 입력...">
-        <button type="submit">검색</button>
-    </form>
+  <form action="/SearchPostList" method="post" class="search-form">
+    <span class="ic ic-search"></span>
+    <input type="text" name="keyword" placeholder="검색어 입력...">
+  </form>
+
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="테마 전환">
+      <span class="ic ic-sun"></span>
+      <span class="ic ic-moon"></span>
+    </button>
 
     {{#isLoggedIn}}
-        <div class="user-menu">
-            <a href="/feed">@{{username}}</a>
-            <a href="/logout">로그아웃</a>
-        </div>
+    <div class="user-menu">
+      <a href="/feed">
+        <span class="ic ic-user"></span>
+        <span>@{{username}}</span>
+      </a>
+      <a href="/post-editor">
+        <span class="ic ic-plus"></span>
+      </a>
+      <a href="/logout">
+        <span class="ic ic-logout"></span>
+      </a>
+    </div>
     {{/isLoggedIn}}
 
     {{^isLoggedIn}}
-        <a href="/login" class="btn-login">가입/로그인</a>
+    <a href="/login" class="btn-login">
+      <span class="ic ic-user"></span>
+      가입 / 로그인
+    </a>
     {{/isLoggedIn}}
+  </div>
 </nav>

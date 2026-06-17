@@ -27,7 +27,7 @@
                     <form action="/CancelSuggest" method="post" style="display:inline">
                         <input type="hidden" name="puid" value="{{puid}}">
                         <button type="submit" class="btn-suggest active">
-                            👍 추천 취소 ({{suggestCount}})
+                            <span class="ic ic-thumb"></span> 추천 취소 ({{suggestCount}})
                         </button>
                     </form>
                 {{/isSuggested}}
@@ -36,19 +36,37 @@
                     <form action="/Suggest" method="post" style="display:inline">
                         <input type="hidden" name="puid" value="{{puid}}">
                         <button type="submit" class="btn-suggest">
-                            👍 추천 ({{suggestCount}})
+                            <span class="ic ic-thumb"></span> 추천 ({{suggestCount}})
                         </button>
                     </form>
                 {{/isSuggested}}
 
                 <a href="/AicodeEdit?puid={{puid}}" class="btn-ai">
-                🤖 AI 코드 리팩토링
+                    <span class="ic ic-lightning"></span> AI 코드 리팩토링
                 </a>
 
             {{/isLoggedIn}}
             {{^isLoggedIn}}
-                <span class="suggest-readonly">👍 {{suggestCount}}</span>
+                <span class="suggest-readonly">
+                    <span class="ic ic-thumb"></span> {{suggestCount}}
+                </span>
             {{/isLoggedIn}}
+
+            {{#isPostAuthor}}
+            <div class="post-owner-actions">
+                <a href="/post-editor?puid={{puid}}" class="btn-owner btn-edit-post">
+                    <span class="ic ic-edit"></span> 수정
+                </a>
+                <form action="/PostAdd" method="post" style="display:inline"
+                      onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="puid" value="{{puid}}">
+                    <button type="submit" class="btn-owner btn-delete-post">
+                        <span class="ic ic-trash"></span> 삭제
+                    </button>
+                </form>
+            </div>
+            {{/isPostAuthor}}
         </div>
     {{/post}}
 

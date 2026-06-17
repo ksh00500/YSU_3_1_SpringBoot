@@ -1,0 +1,92 @@
+.ai-refactor-page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 5rem;
+}
+
+.ai-refactor-header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .85rem;
+  color: var(--text-2);
+  margin-bottom: 1rem;
+  transition: color var(--ease);
+}
+
+.back-link:hover { color: var(--accent); }
+
+.ai-post-info {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.ai-post-info h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ── 2단 레이아웃 ── */
+.ai-refactor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .ai-refactor-layout { grid-template-columns: 1fr; }
+}
+
+/* ── 패널 ── */
+.ai-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.ai-panel-result {
+  border-color: var(--accent);
+}
+
+.ai-panel-title {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .75rem 1.1rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.ai-panel-result .ai-panel-title {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border-bottom-color: var(--accent);
+}
+
+.code-block,
+.ai-result-block {
+  margin: 0;
+  padding: 1.25rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: .82rem;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  max-height: 70vh;
+  overflow-y: auto;
+}

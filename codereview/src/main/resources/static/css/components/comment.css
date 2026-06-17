@@ -1,0 +1,163 @@
+.comments-section { margin-top: 2.5rem; }
+.comments-section h2 { margin-bottom: 1.25rem; }
+
+/* ── Comment form ── */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-bottom: 1.75rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem;
+}
+
+.comment-form textarea {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: .65rem .9rem;
+  font-size: .9rem;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.6;
+  transition: border-color var(--ease);
+  width: 100%;
+}
+
+.comment-form textarea:focus { border-color: var(--accent); }
+.comment-form textarea::placeholder { color: var(--text-3); }
+
+.comment-form button[type=submit] {
+  align-self: flex-end;
+}
+
+/* ── Comment list ── */
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+
+/* ── Comment item ── */
+.comment-item {
+  padding: .9rem 1rem;
+  border-radius: var(--r);
+  transition: background var(--ease);
+}
+
+.comment-item:hover { background: var(--bg-raised); }
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .4rem;
+}
+
+.comment-author {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.comment-actions {
+  display: flex;
+  gap: .35rem;
+  opacity: 0;
+  transition: opacity var(--ease);
+}
+
+.comment-item:hover .comment-actions { opacity: 1; }
+
+.comment-actions button {
+  font-size: .78rem;
+  padding: .2rem .5rem;
+  border-radius: var(--r-sm);
+  color: var(--text-3);
+  border: 1px solid transparent;
+  transition: all var(--ease);
+}
+
+.btn-edit-comment:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-del-comment:hover {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.comment-body {
+  font-size: .9rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ── 댓글 인라인 수정 폼 ── */
+.comment-edit-form {
+  display: none;
+  flex-direction: column;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+
+.edit-textarea {
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-sm);
+  padding: .6rem .85rem;
+  font-size: .9rem;
+  color: var(--text);
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.edit-form-actions {
+  display: flex;
+  gap: .4rem;
+  justify-content: flex-end;
+}
+
+/* ── 글 수정/삭제 버튼 ── */
+.post-owner-actions {
+  display: flex;
+  gap: .5rem;
+  margin-left: auto;
+}
+
+.btn-owner {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .45rem .85rem;
+  font-size: .82rem;
+  font-weight: 500;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--ease);
+}
+
+.btn-edit-post:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.btn-delete-post:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}

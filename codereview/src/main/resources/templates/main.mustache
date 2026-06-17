@@ -2,24 +2,121 @@
 
 <main class="main-page">
 
-    <nav class="tab-nav">
-        <a href="/TrendyPostList"      class="tab {{#isTrendy}}active{{/isTrendy}}">🔥 인기글</a>
-        <a href="/NewPostList"         class="tab {{#isNew}}active{{/isNew}}">🆕 최신글</a>
-        {{#isLoggedIn}}
-            <a href="/FollowPostList"      class="tab {{#isFollow}}active{{/isFollow}}">📌 구독한 글</a>
-        {{/isLoggedIn}}
-        <a href="/TrendythemePostList" class="tab {{#isTheme}}active{{/isTheme}}">🌐 언어별 인기글</a>
-    </nav>
+  <!-- 섹션 고정 앵커 탭 -->
+  <nav class="section-nav">
+    <a href="#trending" class="snav-item">
+      <span class="ic ic-fire"></span> 인기글
+    </a>
+    <a href="#latest" class="snav-item">
+      <span class="ic ic-sparkle"></span> 최신글
+    </a>
+    <a href="#language" class="snav-item">
+      <span class="ic ic-code"></span> 언어별 인기글
+    </a>
+    <a href="#jobs" class="snav-item">
+      <span class="ic ic-briefcase"></span> 구인구직
+    </a>
+  </nav>
 
-    <section class="post-grid">
-        {{#posts}}
-            {{> partials/post-card}}
-        {{/posts}}
+  <!-- 검색 결과 -->
+  {{#isSearch}}
+  <section class="main-section">
+    <div class="section-header">
+      <h2>"{{keyword}}" 검색 결과</h2>
+    </div>
+    <div class="post-grid">
+      {{#searchPosts}}
+        {{> partials/post-card}}
+      {{/searchPosts}}
+      {{^searchPosts}}
+        <p class="empty-msg">검색 결과가 없습니다.</p>
+      {{/searchPosts}}
+    </div>
+  </section>
+  {{/isSearch}}
 
-        {{^posts}}
-            <p class="empty-msg">게시글이 없습니다.</p>
-        {{/posts}}
-    </section>
+  <!-- 인기글 -->
+  {{^isSearch}}
+  <section id="trending" class="main-section">
+    <div class="section-header">
+      <h2><span class="ic ic-fire"></span> 인기글</h2>
+    </div>
+    <div class="post-grid">
+      {{#trendingPosts}}
+        {{> partials/post-card}}
+      {{/trendingPosts}}
+      {{^trendingPosts}}
+        <p class="empty-msg">게시글이 없습니다.</p>
+      {{/trendingPosts}}
+    </div>
+  </section>
+
+  <!-- 최신글 -->
+  <section id="latest" class="main-section">
+    <div class="section-header">
+      <h2><span class="ic ic-sparkle"></span> 최신글</h2>
+    </div>
+    <div class="post-grid">
+      {{#newPosts}}
+        {{> partials/post-card}}
+      {{/newPosts}}
+      {{^newPosts}}
+        <p class="empty-msg">게시글이 없습니다.</p>
+      {{/newPosts}}
+    </div>
+  </section>
+
+  <!-- 언어별 인기글 -->
+  <section id="language" class="main-section">
+    <div class="section-header">
+      <h2><span class="ic ic-code"></span> 언어별 인기글</h2>
+    </div>
+
+    <div class="lang-section">
+      <h3 class="lang-label"><span class="tag">Python</span></h3>
+      <div class="post-grid">
+        {{#pythonPosts}}{{> partials/post-card}}{{/pythonPosts}}
+        {{^pythonPosts}}<p class="empty-msg-sm">Python 게시글이 없습니다.</p>{{/pythonPosts}}
+      </div>
+    </div>
+
+    <div class="lang-section">
+      <h3 class="lang-label"><span class="tag">JavaScript</span></h3>
+      <div class="post-grid">
+        {{#jsPosts}}{{> partials/post-card}}{{/jsPosts}}
+        {{^jsPosts}}<p class="empty-msg-sm">JavaScript 게시글이 없습니다.</p>{{/jsPosts}}
+      </div>
+    </div>
+
+    <div class="lang-section">
+      <h3 class="lang-label"><span class="tag">Java</span></h3>
+      <div class="post-grid">
+        {{#javaPosts}}{{> partials/post-card}}{{/javaPosts}}
+        {{^javaPosts}}<p class="empty-msg-sm">Java 게시글이 없습니다.</p>{{/javaPosts}}
+      </div>
+    </div>
+  </section>
+
+  <!-- 구인구직 -->
+  <section id="jobs" class="main-section">
+    <div class="section-header">
+      <h2><span class="ic ic-briefcase"></span> 구인구직</h2>
+      {{#isLoggedIn}}
+      <a href="/post-editor?type=job" class="btn-write">
+        <span class="ic ic-plus"></span> 공고 올리기
+      </a>
+      {{/isLoggedIn}}
+    </div>
+    <div class="job-list">
+      {{#jobPosts}}
+        {{> partials/job-card}}
+      {{/jobPosts}}
+      {{^jobPosts}}
+        <p class="empty-msg">등록된 공고가 없습니다.</p>
+      {{/jobPosts}}
+    </div>
+  </section>
+  {{/isSearch}}
 
 </main>
 

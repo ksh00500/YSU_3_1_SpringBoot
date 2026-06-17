@@ -1,53 +1,119 @@
-// [AI 활용] 이 파일은 Claude AI를 활용하여 작성되었습니다.
 package com.ysu.codereview.service;
 
 import com.ysu.codereview.dto.PostDto;
 import com.ysu.codereview.entity.Post;
+import com.ysu.codereview.repository.CommentRepository;
 import com.ysu.codereview.repository.PostRepository;
+import com.ysu.codereview.repository.SuggestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// 게시글 관련 비즈니스 로직을 처리하는 Service
-// Controller에서 호출하며, Repository를 통해 DB와 통신함
 @Slf4j
 @Service
 public class PostService {
 
     @Autowired
-    private PostRepository postRepository; // DB 접근을 위한 Repository 주입
+    private PostRepository postRepository;
 
-    // [GET /PostContents] 게시글 상세 조회
-    // postId로 게시글을 찾고, 없으면 예외 발생
-    public PostDto getPost(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + postId));
-        log.info("게시글 조회 성공: {}", post);
-        return PostDto.of(post); // Entity → DTO 변환 후 반환
+    @Autowired
+    private SuggestRepository suggestRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    private PostDto toDto(Post post) {
+        long sc = suggestRepository.countByPostId(post.getId());
+        long cc = commentRepository.countByPostId(post.getId());
+        return PostDto.of(post, sc, cc);
     }
 
-    // [GET /RelatedPostList] 관련 게시글 목록 조회
-    // 현재 게시글과 같은 언어(language)의 게시글을 최대 5개 반환
-    public List<PostDto> getRelatedPosts(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + postId));
+    public PostDto getPost(Long puid) {
+        Post post = postRepository.findById(puid)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + puid));
+        return toDto(post);
+    }
 
-        return postRepository.findByLanguageAndIdNot(post.getLanguage(), postId)
-                .stream()
-                .limit(5)
-                .map(PostDto::of)
+    public List<PostDto> getTrendingPosts() {
+        return postRepository.findAll().stream()
+                .map(this::toDto)
+                .sorted(Comparator.comparingLong(PostDto::getSuggestCount).reversed())
                 .collect(Collectors.toList());
     }
 
-    // [GET /AicodeEdit] AI 코드 리팩토링 결과 반환
-    // 현재는 게시글 코드를 그대로 반환 (추후 AI API 연동 시 이 메서드에 추가)
-    public String getAiRefactored(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + postId));
-        log.info("AI 리팩토링 요청: postId={}", postId);
+    public List<PostDto> getAllPostsByDate() {
+        return postRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PostDto> getPostsByTheme(String themeLanguage) {
+        return postRepository.findByLanguageOrderByCreatedAtDesc(themeLanguage).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PostDto> getPostsByKeyword(String keyword) {
+        return postRepository.findByTitleContainingIgnoreCaseOrderByCreatedAtDesc(keyword).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PostDto> getMyPosts(String authorId) {
+        return postRepository.findByNicknameOrderByCreatedAtDesc(authorId).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PostDto> getJobPosts() {
+        return postRepository.findByPostTypeOrderByCreatedAtDesc("job").stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PostDto> getRelatedPosts(Long puid) {
+        Post post = postRepository.findById(puid)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + puid));
+        return postRepository.findByLanguageAndIdNot(post.getLanguage(), puid).stream()
+                .limit(5)
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PostDto createPost(String title, String content, String themeLanguage, String postType, String authorId) {
+        Post post = new Post(null, title, content, themeLanguage, authorId, postType, null);
+        Post saved = postRepository.save(post);
+        log.info("게시글 등록: {}", saved);
+        return PostDto.of(saved);
+    }
+
+    @Transactional
+    public PostDto updatePost(Long puid, String title, String content, String themeLanguage, String postType) {
+        Post post = postRepository.findById(puid)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + puid));
+        post.update(title, content, themeLanguage, postType);
+        Post saved = postRepository.save(post);
+        log.info("게시글 수정: {}", saved);
+        return toDto(saved);
+    }
+
+    @Transactional
+    public void deletePost(Long puid) {
+        Post post = postRepository.findById(puid)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + puid));
+        postRepository.delete(post);
+        log.info("게시글 삭제: puid={}", puid);
+    }
+
+    public String getAiRefactored(Long puid) {
+        Post post = postRepository.findById(puid)
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. id=" + puid));
         return "[AI 리팩토링 결과]\n언어: " + post.getLanguage() + "\n\n" + post.getCodeContent();
     }
 }

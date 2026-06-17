@@ -33,12 +33,21 @@ public class Post {
     @Column(nullable = false)
     private String nickname;        // 작성자 닉네임
 
+    @Column
+    private String postType;        // 게시글 유형 (tech, career, question, job)
+
     @Column(nullable = false)
     private LocalDateTime createdAt; // 작성 시간
 
-    // DB에 저장되기 직전에 자동으로 현재 시간을 넣어주는 메서드
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void update(String title, String codeContent, String language, String postType) {
+        this.title = title;
+        this.codeContent = codeContent;
+        this.language = language;
+        this.postType = postType;
     }
 }

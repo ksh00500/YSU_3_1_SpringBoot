@@ -1,0 +1,93 @@
+.main-page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.25rem 5rem;
+}
+
+/* ── 섹션 고정 앵커 탭 ── */
+.section-nav {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 90;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 0;
+  padding: 0;
+  margin: 0 -1.25rem 2.5rem;
+  padding: 0 1.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  transition: background var(--ease);
+}
+
+.section-nav::-webkit-scrollbar { display: none; }
+
+.snav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .75rem 1rem;
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--text-2);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color var(--ease), border-color var(--ease);
+}
+
+.snav-item .ic { font-size: .9rem; }
+.snav-item:hover { color: var(--text); }
+.snav-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── 각 섹션 ── */
+.main-section {
+  margin-bottom: 4rem;
+  scroll-margin-top: calc(var(--nav-h) + 52px);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header h2 {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.section-header h2 .ic {
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+/* ── 언어별 서브섹션 ── */
+.lang-section {
+  margin-bottom: 2.5rem;
+}
+
+.lang-label {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ── 빈 상태 ── */
+.empty-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3.5rem 1rem;
+  color: var(--text-3);
+  font-size: .9rem;
+}
+
+.empty-msg-sm {
+  padding: 1.5rem 0;
+  color: var(--text-3);
+  font-size: .875rem;
+}

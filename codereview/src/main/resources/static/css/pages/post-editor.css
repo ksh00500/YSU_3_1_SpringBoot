@@ -1,0 +1,44 @@
+.editor-page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.editor-page h1 { margin-bottom: .25rem; }
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.post-form .form-group input[type=text] { font-size: 1rem; }
+
+.post-form textarea {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem;
+  font-size: .9rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  color: var(--text);
+  outline: none;
+  resize: vertical;
+  line-height: 1.7;
+  transition: border-color var(--ease);
+  width: 100%;
+  min-height: 420px;
+}
+
+.post-form textarea:focus { border-color: var(--accent); }
+
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .75rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--border);
+}

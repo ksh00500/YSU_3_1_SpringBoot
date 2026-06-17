@@ -1,0 +1,135 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem 1rem;
+  border-radius: var(--r-sm);
+  font-size: .875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--ease), color var(--ease), border-color var(--ease), opacity var(--ease);
+  white-space: nowrap;
+}
+
+/* Primary */
+.btn-primary, .btn-submit {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+}
+.btn-primary:hover, .btn-submit:hover {
+  background: var(--accent-h);
+  color: #fff;
+}
+
+/* Secondary / outlined */
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.btn-secondary:hover {
+  background: var(--accent-bg);
+}
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  background: var(--bg-raised);
+  color: var(--text);
+}
+
+/* Danger */
+.btn-delete, .btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+.btn-delete:hover, .btn-danger:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* Cancel */
+.btn-cancel {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+.btn-cancel:hover {
+  background: var(--bg-raised);
+  color: var(--text);
+}
+
+/* Write/Accent-soft */
+.btn-write {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+.btn-write:hover { background: var(--accent); color: #fff; }
+
+/* AI button */
+.btn-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem 1rem;
+  background: var(--bg-raised);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: .875rem;
+  font-weight: 500;
+  transition: all var(--ease);
+}
+.btn-ai:hover {
+  background: #2d2060;
+  color: #c4aaff;
+  border-color: #5040a0;
+}
+
+/* Suggest button */
+.btn-suggest {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem 1rem;
+  background: var(--bg-raised);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: .875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--ease);
+}
+.btn-suggest:hover    { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+.btn-suggest.active   { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Full width */
+.btn-full { width: 100%; justify-content: center; padding: .6rem 1rem; font-size: .95rem; }
+
+/* Google OAuth */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  width: 100%;
+  padding: .6rem 1rem;
+  background: var(--bg-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: .875rem;
+  font-weight: 500;
+  transition: background var(--ease);
+}
+.btn-google:hover { background: var(--bg-surface); }
+

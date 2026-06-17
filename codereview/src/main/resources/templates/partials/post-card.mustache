@@ -1,28 +1,21 @@
 <article class="post-card">
-    <a href="/PostContents?puid={{puid}}">
-
-    {{#hasThumbnail}}
-        <div class="thumbnail">
-            <img src="{{thumbnailUrl}}" alt="{{title}}">
-        </div>
-    {{/hasThumbnail}}
-    {{^hasThumbnail}}
-        <div class="thumbnail no-image">No Image</div>
-    {{/hasThumbnail}}
-
+  <a href="/PostContents?puid={{puid}}">
     <div class="card-body">
-        <div class="tags">
-            <span class="tag">{{themeLanguage}}</span>
-            <span class="tag">{{postType}}</span>
-        </div>
-        <h3 class="post-title">{{title}}</h3>
-        <div class="post-meta">
-            <span>👍 {{suggestCount}}</span>
-            <span>💬 {{commentCount}}</span>
-            <span>@{{authorId}}</span>
-            <span>{{createdAt}}</span>
-        </div>
+      <div class="card-top">
+        <span class="tag">{{themeLanguage}}</span>
+        <span class="tag tag-muted">{{postType}}</span>
+      </div>
+      <h3 class="post-title">{{title}}</h3>
+      <div class="post-meta">
+        <span class="meta-author">@{{authorId}}</span>
+        <span class="meta-divider"></span>
+        <span class="meta-item">
+          <span class="ic ic-thumb"></span>{{suggestCount}}
+        </span>
+        <span class="meta-item">
+          <span class="ic ic-chat"></span>{{commentCount}}
+        </span>
+      </div>
     </div>
-
-    </a>
+  </a>
 </article>

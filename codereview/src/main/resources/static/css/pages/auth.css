@@ -1,0 +1,82 @@
+.auth-page {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 2.25rem 2rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.auth-box h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.auth-box .form-group { gap: .5rem; }
+
+.auth-link {
+  text-align: center;
+  font-size: .875rem;
+  color: var(--text-2);
+}
+
+.auth-link a {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.auth-link a:hover { color: var(--accent-h); }
+
+.divider {
+  text-align: center;
+  font-size: .8rem;
+  color: var(--text-3);
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 42%;
+  height: 1px;
+  background: var(--border);
+}
+
+.divider::before { left: 0; }
+.divider::after  { right: 0; }
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--bg-surface);
+  color: var(--text);
+  font-size: .9rem;
+  font-weight: 500;
+  transition: background var(--ease), border-color var(--ease);
+}
+
+.btn-google:hover {
+  background: var(--bg-hover);
+  border-color: var(--text-3);
+}
+
