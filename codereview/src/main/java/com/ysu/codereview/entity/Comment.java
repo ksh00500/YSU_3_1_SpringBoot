@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
-/** 댓글 (ERD: Comment) */
+// 댓글
 @Entity
 @Table(name = "comment")
 public class Comment {
@@ -15,11 +15,11 @@ public class Comment {
     @Column(length = 16)
     public String cuid;
 
-    /** 대상 글 (FK -> Posts.puid) */
+    // 글
     @Column(length = 16)
     public String puid;
 
-    /** 작성자 (FK -> Account.uuid) */
+    // 작성자
     @Column(length = 16)
     public String uuid;
 

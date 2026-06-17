@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/** Posts 엔티티 → 템플릿용 PostDto 변환 공통 로직 */
+// 변환
 @Component
 public class PostMapper {
 
@@ -28,7 +28,7 @@ public class PostMapper {
         this.commentRepo = commentRepo;
     }
 
-    /** 카드(post-card)용 — 작성자/추천수/댓글수 포함 */
+    // 카드용
     public PostDto toCard(Posts p, String meUuid) {
         PostDto d         = new PostDto();
         d.puid            = p.puid;
@@ -39,14 +39,14 @@ public class PostMapper {
         d.createdAt       = formatDate(p.createdAt);
         d.suggestCount    = (int) suggestRepo.countByPuidAndCheakTrue(p.puid);
         d.commentCount    = (int) commentRepo.countByPuid(p.puid);
-        d.hasThumbnail    = false;   // ERD에 썸네일 컬럼 없음
+        d.hasThumbnail    = false;   // 썸네일X
         d.thumbnailUrl    = null;
         d.isSuggested     = meUuid != null
                 && suggestRepo.existsByPuidAndUuidAndCheakTrue(p.puid, meUuid);
         return d;
     }
 
-    /** 요약(피드/관련글)용 — puid·title·themeLanguage·createdAt만 */
+    // 요약용
     public PostDto toSummary(Posts p) {
         PostDto d       = new PostDto();
         d.puid          = p.puid;

@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/** 게시글 추천 (ERD: PostSuggests) */
+// 추천
 @Entity
 @Table(name = "post_suggests")
 public class PostSuggests {
@@ -14,15 +14,15 @@ public class PostSuggests {
     @Column(length = 16)
     public String suid;
 
-    /** 추천 대상 글 (FK -> Posts.puid) */
+    // 글
     @Column(length = 16)
     public String puid;
 
-    /** 추천한 사용자 (FK -> Account.uuid) */
+    // 유저
     @Column(length = 16)
     public String uuid;
 
-    /** ERD: IsCheak — 추천 활성 여부 */
+    // 추천 여부
     @Column(name = "is_cheak")
     public boolean cheak;
 

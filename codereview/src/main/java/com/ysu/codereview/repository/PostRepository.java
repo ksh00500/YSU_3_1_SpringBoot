@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Posts, String> {
 
-    /** 최신글 탭 */
+    // 최신글
     List<Posts> findAllByOrderByCreatedAtDesc();
 
-    /** 구독한 글 탭 — 내가 구독한 작성자들의 글 */
+    // 구독글
     List<Posts> findByUuidInOrderByCreatedAtDesc(List<String> uuids);
 
-    /** 개인 피드 — 내 글 목록 */
+    // 내 글
     List<Posts> findByUuidOrderByCreatedAtDesc(String uuid);
 
-    /** 검색 */
+    // 검색
     List<Posts> findByTitleContainingIgnoreCaseOrderByCreatedAtDesc(String keyword);
 }

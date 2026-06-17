@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
-/** 게시글 (ERD: Posts) */
+// 게시글
 @Entity
 @Table(name = "posts")
 public class Posts {
@@ -17,7 +17,7 @@ public class Posts {
     @Column(length = 16)
     public String puid;
 
-    /** 작성자 (FK -> Account.uuid) */
+    // 작성자
     @Column(length = 16)
     public String uuid;
 

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-/** 대시보드(메인) + 개인 피드 담당. 그 외 페이지는 별도 컨트롤러. */
+// 대시보드/피드
 @Controller
 public class DevlogController {
 
-    /** 인증 미구현 — 세션에 loginUuid 없으면 데모 사용자로 폴백 */
+    // 임시 유저
     private static final String DEMO_USER = "u-testuser";
 
     private final DashboardService dashboardService;
@@ -32,43 +32,48 @@ public class DevlogController {
         this.accountRepo = accountRepo;
     }
 
+    // 현재 유저
     private String me(HttpSession session) {
         Object u = session.getAttribute("loginUuid");
         return u != null ? u.toString() : DEMO_USER;
     }
 
+    // 이름
     private String usernameOf(String uuid) {
         return accountRepo.findById(uuid).map(a -> a.id).orElse("guest");
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //  메인 페이지 (대시보드) — 탭별 게시글
-    // ═══════════════════════════════════════════════════════════════
+    // 메인
     @GetMapping("/")
     public String main(Model model, HttpSession session) {
         return renderMain("trendy", "DevLog", dashboardService.trendy(me(session)), model, session);
     }
 
+    // 인기글
     @GetMapping("/TrendyPostList")
     public String trendy(Model model, HttpSession session) {
         return renderMain("trendy", "인기글", dashboardService.trendy(me(session)), model, session);
     }
 
+    // 최신글
     @GetMapping("/NewPostList")
     public String latest(Model model, HttpSession session) {
         return renderMain("new", "최신글", dashboardService.latest(me(session)), model, session);
     }
 
+    // 구독글
     @GetMapping("/FollowPostList")
     public String follow(Model model, HttpSession session) {
         return renderMain("follow", "구독한 글", dashboardService.follow(me(session)), model, session);
     }
 
+    // 언어별
     @GetMapping("/TrendythemePostList")
     public String theme(Model model, HttpSession session) {
         return renderMain("theme", "언어별 인기글", dashboardService.theme(me(session)), model, session);
     }
 
+    // 검색
     @PostMapping("/SearchPostList")
     public String search(@RequestParam(defaultValue = "") String keyword,
                          Model model, HttpSession session) {
@@ -76,7 +81,7 @@ public class DevlogController {
                 dashboardService.search(keyword, me(session)), model, session);
     }
 
-    /** 메인 뷰 공통 렌더링 — 탭 플래그 + posts */
+    // 공통 렌더
     private String renderMain(String tab, String pageTitle, List<PostDto> posts,
                               Model model, HttpSession session) {
         String me = me(session);
@@ -91,9 +96,7 @@ public class DevlogController {
         return "main";
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //  개인 피드
-    // ═══════════════════════════════════════════════════════════════
+    // 피드
     @GetMapping("/feed")
     public String feed(Model model, HttpSession session) {
         String me = me(session);

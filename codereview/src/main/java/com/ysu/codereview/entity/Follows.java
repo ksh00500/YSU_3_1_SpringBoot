@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/** 구독 (ERD: Follows) */
+// 구독
 @Entity
 @Table(name = "follows")
 public class Follows {
@@ -14,11 +14,11 @@ public class Follows {
     @Column(length = 16)
     public String fuid;
 
-    /** 구독하는 사람 (Account.uuid) */
+    // 구독자
     @Column(length = 16)
     public String followerId;
 
-    /** 구독 당하는 사람 (Account.uuid) */
+    // 대상
     @Column(length = 16)
     public String followingId;
 

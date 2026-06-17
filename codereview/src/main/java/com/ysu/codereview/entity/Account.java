@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/** 사용자 (ERD: Account) */
+// 사용자
 @Entity
 @Table(name = "account")
 public class Account {

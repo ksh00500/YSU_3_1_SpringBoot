@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follows, String> {
 
-    /** 팔로워 수 — 나를 구독한 사람 수 */
+    // 팔로워
     long countByFollowingId(String followingId);
 
-    /** 팔로잉 수 — 내가 구독한 사람 수 */
+    // 팔로잉
     long countByFollowerId(String followerId);
 
-    /** 내가 구독한 관계 목록 (followingId 추출용) */
+    // 구독목록
     List<Follows> findByFollowerId(String followerId);
 }
