@@ -10,6 +10,7 @@ import com.ysu.codereview.repository.AccountRepository;
 import com.ysu.codereview.service.AccountService;
 import com.ysu.codereview.service.AiService;
 import com.ysu.codereview.service.CommentService;
+import com.ysu.codereview.service.FeedService;
 import com.ysu.codereview.service.PostService;
 import com.ysu.codereview.service.SuggestService;
 import jakarta.servlet.http.Cookie;
@@ -36,6 +37,7 @@ public class PostController {
     @Autowired private AccountRepository accountRepository;
     @Autowired private JwtProvider jwtProvider;
     @Autowired private AiService aiService;
+    @Autowired private FeedService feedService;
 
     private Account getAccountFromCookie(HttpServletRequest request) {
         if (request.getCookies() == null) return null;
@@ -269,10 +271,11 @@ public class PostController {
         Account account = getAccountFromCookie(request);
         if (account == null) return "redirect:/login";
         addAuthModel(model, account);
+        var userDto = feedService.user(account.getUuid());
         Map<String, Object> user = new HashMap<>();
-        user.put("id", account.getLoginId());
-        user.put("followerCount", 0);
-        user.put("followingCount", 0);
+        user.put("id", userDto.id);
+        user.put("followerCount", userDto.followerCount);
+        user.put("followingCount", userDto.followingCount);
         model.addAttribute("user", user);
         model.addAttribute("myPosts", postService.getMyPosts(account.getLoginId()));
         model.addAttribute("pageTitle", "내 글 목록");
