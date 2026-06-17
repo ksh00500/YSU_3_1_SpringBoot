@@ -1,5 +1,12 @@
 package com.ysu.codereview.controller;
 
+import com.ysu.codereview.dto.CommentDto;
+import com.ysu.codereview.dto.JobDto;
+import com.ysu.codereview.dto.PostDto;
+import com.ysu.codereview.repository.AccountRepository;
+import com.ysu.codereview.service.DashboardService;
+import com.ysu.codereview.service.FeedService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,37 +16,96 @@ import java.util.*;
 @Controller
 public class DevlogController {
 
+    /** 인증 미구현 — 세션에 loginUuid 없으면 데모 사용자로 폴백 */
+    private static final String DEMO_USER = "u-testuser";
+
+    private final DashboardService dashboardService;
+    private final FeedService      feedService;
+    private final AccountRepository accountRepo;
+
+    public DevlogController(DashboardService dashboardService,
+                            FeedService feedService,
+                            AccountRepository accountRepo) {
+        this.dashboardService = dashboardService;
+        this.feedService = feedService;
+        this.accountRepo = accountRepo;
+    }
+
+    private String me(HttpSession session) {
+        Object u = session.getAttribute("loginUuid");
+        return u != null ? u.toString() : DEMO_USER;
+    }
+
+    private String usernameOf(String uuid) {
+        return accountRepo.findById(uuid).map(a -> a.id).orElse("guest");
+    }
+
     // ═══════════════════════════════════════════════════════════════
-    //  메인 페이지
+    //  메인 페이지 (대시보드) — 탭별 게시글
     // ═══════════════════════════════════════════════════════════════
     @GetMapping("/")
-    public String main(@RequestParam(defaultValue = "trendy") String tab, Model model) {
-        model.addAttribute("pageTitle",  "DevLog");
+    public String main(Model model, HttpSession session) {
+        return renderMain("trendy", "DevLog", dashboardService.trendy(me(session)), model, session);
+    }
+
+    @GetMapping("/TrendyPostList")
+    public String trendy(Model model, HttpSession session) {
+        return renderMain("trendy", "인기글", dashboardService.trendy(me(session)), model, session);
+    }
+
+    @GetMapping("/NewPostList")
+    public String latest(Model model, HttpSession session) {
+        return renderMain("new", "최신글", dashboardService.latest(me(session)), model, session);
+    }
+
+    @GetMapping("/FollowPostList")
+    public String follow(Model model, HttpSession session) {
+        return renderMain("follow", "구독한 글", dashboardService.follow(me(session)), model, session);
+    }
+
+    @GetMapping("/TrendythemePostList")
+    public String theme(Model model, HttpSession session) {
+        return renderMain("theme", "언어별 인기글", dashboardService.theme(me(session)), model, session);
+    }
+
+    @PostMapping("/SearchPostList")
+    public String search(@RequestParam(defaultValue = "") String keyword,
+                         Model model, HttpSession session) {
+        return renderMain("search", "검색: " + keyword,
+                dashboardService.search(keyword, me(session)), model, session);
+    }
+
+    /** 메인 뷰 공통 렌더링 — 탭 플래그 + posts */
+    private String renderMain(String tab, String pageTitle, List<PostDto> posts,
+                              Model model, HttpSession session) {
+        String me = me(session);
+        model.addAttribute("pageTitle",  pageTitle);
         model.addAttribute("isLoggedIn", true);
-        model.addAttribute("username",   "testuser");
+        model.addAttribute("username",   usernameOf(me));
         model.addAttribute("isTrendy",   "trendy".equals(tab));
         model.addAttribute("isNew",      "new".equals(tab));
         model.addAttribute("isFollow",   "follow".equals(tab));
         model.addAttribute("isTheme",    "theme".equals(tab));
-        model.addAttribute("posts",      dummyPostList());
-        return "main";
-    }
-
-    @PostMapping("/SearchPostList")
-    public String search(@RequestParam(defaultValue = "") String keyword, Model model) {
-        model.addAttribute("pageTitle",  "검색: " + keyword);
-        model.addAttribute("isLoggedIn", true);
-        model.addAttribute("username",   "testuser");
-        model.addAttribute("isTrendy",   false);
-        model.addAttribute("isNew",      false);
-        model.addAttribute("isFollow",   false);
-        model.addAttribute("isTheme",    false);
-        model.addAttribute("posts",      dummyPostList());
+        model.addAttribute("posts",      posts);
         return "main";
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  로그인
+    //  개인 피드
+    // ═══════════════════════════════════════════════════════════════
+    @GetMapping("/feed")
+    public String feed(Model model, HttpSession session) {
+        String me = me(session);
+        model.addAttribute("pageTitle",  "내 피드");
+        model.addAttribute("isLoggedIn", true);
+        model.addAttribute("username",   usernameOf(me));
+        model.addAttribute("user",       feedService.user(me));
+        model.addAttribute("myPosts",    feedService.myPosts(me));
+        return "feed";
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    //  로그인 (타 담당 — 더미 유지)
     // ═══════════════════════════════════════════════════════════════
     @GetMapping("/login")
     public String loginPage(Model model) {
@@ -60,7 +126,7 @@ public class DevlogController {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  회원가입
+    //  회원가입 (타 담당 — 더미 유지)
     // ═══════════════════════════════════════════════════════════════
     @GetMapping("/register")
     public String registerPage(Model model) {
@@ -82,7 +148,7 @@ public class DevlogController {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  글 상세
+    //  글 상세 (타 담당 — 더미 유지)
     // ═══════════════════════════════════════════════════════════════
     @GetMapping("/post/{puid}")
     public String postDetail(@PathVariable String puid, Model model) {
@@ -117,7 +183,7 @@ public class DevlogController {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  댓글
+    //  댓글 (타 담당 — 더미 유지)
     // ═══════════════════════════════════════════════════════════════
     @PostMapping("/CommentAdd")
     public String commentAdd(@RequestParam String puid, @RequestParam String content) {
@@ -136,7 +202,7 @@ public class DevlogController {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  구인구직
+    //  구인구직 (타 담당 — 더미 유지)
     // ═══════════════════════════════════════════════════════════════
     @GetMapping("/jobs")
     public String jobBoard(Model model) {
@@ -148,25 +214,7 @@ public class DevlogController {
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  개인 피드
-    // ═══════════════════════════════════════════════════════════════
-    @GetMapping("/feed")
-    public String feed(Model model) {
-        UserDto user = new UserDto();
-        user.id             = "testuser";
-        user.followerCount  = 42;
-        user.followingCount = 18;
-
-        model.addAttribute("pageTitle",  "내 피드");
-        model.addAttribute("isLoggedIn", true);
-        model.addAttribute("username",   "testuser");
-        model.addAttribute("user",       user);
-        model.addAttribute("myPosts",    dummyMyPosts());
-        return "feed";
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  글 작성 / 수정
+    //  글 작성 / 수정 (작성·수정은 타 담당 — 더미 유지)
     // ═══════════════════════════════════════════════════════════════
     @GetMapping("/post-editor")
     public String postEditor(@RequestParam(required = false) String puid, Model model) {
@@ -204,46 +252,28 @@ public class DevlogController {
         return "post-editor";
     }
 
+    /**
+     * 등록/수정/삭제 진입점. 피드의 삭제(_method=DELETE)는 실제 삭제 수행.
+     * 등록/수정 본문 처리는 타 담당(현재 redirect만).
+     */
     @PostMapping("/PostAdd")
-    public String postAdd(@RequestParam Map<String, String> params) {
+    public String postAdd(@RequestParam Map<String, String> params, HttpSession session) {
         String method = params.getOrDefault("_method", "POST");
         String puid   = params.get("puid");
         switch (method) {
-            case "PUT":    return "redirect:/post/" + puid;
-            case "DELETE": return "redirect:/feed";
-            default:       return "redirect:/";
+            case "PUT":
+                return "redirect:/post/" + puid;
+            case "DELETE":
+                feedService.deletePost(me(session), puid);
+                return "redirect:/feed";
+            default:
+                return "redirect:/";
         }
     }
 
     // ═══════════════════════════════════════════════════════════════
-    //  더미 데이터
+    //  더미 데이터 (타 담당 페이지용 — 글상세/관련글/댓글/구인구직)
     // ═══════════════════════════════════════════════════════════════
-    private List<PostDto> dummyPostList() {
-        String[][] data = {
-                {"post-1", "Python으로 만드는 간단한 AI 챗봇",  "tech",   "Python",     "devholic",  "128", "24"},
-                {"post-2", "React 성능 최적화 실전 가이드",      "tech",   "JavaScript", "coder99",   "95",  "16"},
-                {"post-3", "Rust로 웹서버 구축하기 — 실전편",    "tech",   "Rust",       "rustlover", "72",  "11"},
-                {"post-4", "취업 준비생을 위한 포트폴리오 전략",  "career", "Java",       "jobhunter", "61",  "8"},
-                {"post-5", "Go 고루틴 완전 이해하기",            "tech",   "Go",         "gopher",    "54",  "9"},
-                {"post-6", "코드 리뷰 잘 받는 7가지 방법",       "career", "JavaScript", "seniordev", "48",  "5"},
-        };
-        List<PostDto> list = new ArrayList<>();
-        for (String[] d : data) {
-            PostDto p    = new PostDto();
-            p.puid          = d[0];
-            p.title         = d[1];
-            p.postType      = d[2];
-            p.themeLanguage = d[3];
-            p.authorId      = d[4];
-            p.createdAt     = "2025.06.04";
-            p.suggestCount  = Integer.parseInt(d[5]);
-            p.commentCount  = Integer.parseInt(d[6]);
-            p.hasThumbnail  = false;
-            list.add(p);
-        }
-        return list;
-    }
-
     private PostDto dummyPost(String puid) {
         PostDto p       = new PostDto();
         p.puid          = puid != null ? puid : "post-1";
@@ -329,48 +359,5 @@ public class DevlogController {
             list.add(j);
         }
         return list;
-    }
-
-    private List<PostDto> dummyMyPosts() {
-        String[][] data = {
-                {"post-1", "Python으로 만드는 간단한 AI 챗봇", "Python",     "2025.06.04"},
-                {"post-2", "React 성능 최적화 실전 가이드",    "JavaScript", "2025.05.28"},
-        };
-        List<PostDto> list = new ArrayList<>();
-        for (String[] d : data) {
-            PostDto p       = new PostDto();
-            p.puid          = d[0];
-            p.title         = d[1];
-            p.themeLanguage = d[2];
-            p.createdAt     = d[3];
-            list.add(p);
-        }
-        return list;
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    //  DTO 클래스
-    // ═══════════════════════════════════════════════════════════════
-    public static class PostDto {
-        public String  puid, title, postType, themeLanguage;
-        public String  authorId, createdAt, content, thumbnailUrl;
-        public int     suggestCount, commentCount;
-        public boolean hasThumbnail, isSuggested;
-    }
-
-    public static class CommentDto {
-        public String  cuid, authorId, content;
-        public boolean isOwner;
-    }
-
-    public static class JobDto {
-        public String                   puid, title, company, location;
-        public String                   jobType, companyLogoUrl, companyInitial;
-        public List<Map<String,String>> tags;
-    }
-
-    public static class UserDto {
-        public String id;
-        public int    followerCount, followingCount;
     }
 }
